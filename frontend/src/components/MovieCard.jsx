@@ -1,3 +1,4 @@
+import "../css/MovieCard.css"
 function MovieCard({movie}) {
     const onFavClick = () => {
         alert("clicked")

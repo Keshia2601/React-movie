@@ -1,5 +1,6 @@
 import MovieCard from "../components/MovieCard";
 import { useState } from "react";
+import "../css/Home.css"
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,7 +15,7 @@ function Home() {
     e.preventDefault();
     alert(searchQuery);
   };
-  
+
   return (
     <div className="home">
       <form onSubmit={handleSearch} className="search-form">
