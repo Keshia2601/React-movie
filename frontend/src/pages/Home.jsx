@@ -1,15 +1,35 @@
 import MovieCard from "../components/MovieCard";
-import { useState } from "react";
-import "../css/Home.css"
+import { useState, useEffect } from "react";
+//import { getSuggestedMovies, searchMovies } from "../server";
+import "../css/Home.css";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const movies = [
-    { id: 1, title: "John wick", releaseDate: "2020" },
-    { id: 2, title: "Twilight", releaseDate: "2008" },
-    { id: 3, title: "Interstellar", releaseDate: "2015" },
-  ];
+  const getMovies = async () => {
+    const response = await fetch("http://localhost:3000/suggestions");
+    const data = await response.json();
+    console.log("Suggested Movies:", data.data?.movies);
+    return data.data?.movies;
+  };
+
+  useEffect(() => {
+    const loadMovies = async () => {
+      try {
+        const listMovies = await getMovies();
+        setMovies(listMovies);
+      } catch (err) {
+        console.log(err);
+        setError("Failed to load");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadMovies();
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
